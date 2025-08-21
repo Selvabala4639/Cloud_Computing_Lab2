@@ -3,7 +3,7 @@ const express = require('express');
 const helmet = require('helmet');
 const cors = require('cors');
 const path = require('path');
-const { pool, query } = require('./db');
+const {  query } = require('./db');
 
 const app = express();
 
@@ -26,7 +26,10 @@ app.get('/api/contacts', async (req, res) => {
 async function initializeDatabase() {
   try {
     // Create database if it doesn't exist (requires separate connection)
-    const adminPool = pool();
+    const adminPool = new Pool({
+      connectionString: process.env.DATABASE_URL,
+      ssl: isProd ? { rejectUnauthorized: false } : false
+});;
 
     await adminPool
       .query(`CREATE DATABASE ${process.env.DB_NAME || "contact_manager"};`)
@@ -135,6 +138,7 @@ initializeDatabase().then(() => {
     console.log(`Server running on port ${PORT}`);
   });
 });
+
 
 
 
