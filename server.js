@@ -42,7 +42,7 @@ async function initializeDatabase() {
     await adminPool.end();
 
     // Create table if it doesn't exist
-    await pool.query(`
+    await adminPool.query(`
             CREATE TABLE IF NOT EXISTS contacts (
             id SERIAL PRIMARY KEY,
             name TEXT NOT NULL,
@@ -141,6 +141,7 @@ initializeDatabase().then(() => {
     console.log(`Server running on port ${PORT}`);
   });
 });
+
 
 
 
