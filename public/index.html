@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Contact Manager</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Contact Manager</h1>
+
+    <section class="form-section">
+      <h2>Add / Edit Contact</h2>
+      <form id="contact-form">
+        <input type="hidden" id="contact-id" />
+        <div class="row">
+          <label>Name</label>
+          <input type="text" id="name" placeholder="Full name" required />
+        </div>
+        <div class="row">
+          <label>Email</label>
+          <input type="email" id="email" placeholder="email@example.com" />
+        </div>
+        <div class="row">
+          <label>Phone</label>
+          <input type="text" id="phone" placeholder="123-456-7890" />
+        </div>
+        <div class="actions">
+          <button type="submit" id="save-btn">Save</button>
+          <button type="button" id="reset-btn" class="secondary">Reset</button>
+        </div>
+      </form>
+    </section>
+
+    <section>
+      <h2>Contacts</h2>
+      <div id="status"></div>
+      <table id="contacts-table">
+        <thead>
+          <tr>
+            <th>ID</th><th>Name</th><th>Email</th><th>Phone</th><th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="contacts-body"></tbody>
+      </table>
+    </section>
+  </div>
+
+  <script src="/script.js"></script>
+</body>
+</html>
