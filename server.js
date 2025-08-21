@@ -39,7 +39,7 @@ async function initializeDatabase() {
       .catch((err) =>
         console.log("Database already exists or creation failed:", err.message)
       );
-    await adminPool.end();
+    
 
     // Create table if it doesn't exist
     await adminPool.query(`
@@ -141,6 +141,7 @@ initializeDatabase().then(() => {
     console.log(`Server running on port ${PORT}`);
   });
 });
+
 
 
 
