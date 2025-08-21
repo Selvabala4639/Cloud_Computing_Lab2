@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const helmet = require('helmet');
 const cors = require('cors');
+const { Pool } = require('pg');
 const path = require('path');
 const {  query } = require('./db');
 
@@ -138,6 +139,7 @@ initializeDatabase().then(() => {
     console.log(`Server running on port ${PORT}`);
   });
 });
+
 
 
 
