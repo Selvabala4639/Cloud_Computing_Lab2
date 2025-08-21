@@ -23,6 +23,48 @@ app.get('/api/contacts', async (req, res) => {
   }
 });
 
+async function initializeDatabase() {
+  try {
+    // Create database if it doesn't exist (requires separate connection)
+    const adminPool = new Pool({
+      user: process.env.DB_USER || "postgres",
+      host: process.env.DB_HOST || "localhost",
+      password: process.env.DB_PASSWORD || "yourpassword",
+      port: process.env.DB_PORT || 5432,
+    });
+
+    await adminPool
+      .query(`CREATE DATABASE ${process.env.DB_NAME || "contact_manager"};`)
+      .catch((err) =>
+        console.log("Database already exists or creation failed:", err.message)
+      );
+    await adminPool.end();
+
+    // Create table if it doesn't exist
+    await pool.query(`
+            CREATE TABLE IF NOT EXISTS contacts (
+            id SERIAL PRIMARY KEY,
+            name TEXT NOT NULL,
+            email TEXT UNIQUE,
+            phone TEXT,
+            created_at TIMESTAMPTZ DEFAULT NOW(),
+            updated_at TIMESTAMPTZ DEFAULT NOW()
+          );
+          
+          INSERT INTO contacts (name, email, phone)
+          VALUES
+            ('Alice Johnson', 'alice@example.com', '123-456-7890'),
+            ('Bob Smith', 'bob@example.com', '987-654-3210')
+          ON CONFLICT DO NOTHING;
+
+        `);
+    console.log("Database initialized successfully");
+  } catch (err) {
+    console.error("Database initialization error:", err);
+  }
+}
+
+
 app.get('/api/contacts/:id', async (req, res) => {
   try {
     const id = Number(req.params.id);
@@ -93,6 +135,9 @@ app.get('*', (req, res) => {
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server listening on http://localhost:${PORT}`);
+initializeDatabase().then(() => {
+  app.listen(port, () => {
+    console.log(`Server running on port ${port}`);
+  });
 });
+
