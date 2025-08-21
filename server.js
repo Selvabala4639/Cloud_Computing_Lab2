@@ -13,6 +13,8 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
+const isProd = process.env.NODE_ENV === 'production';
+
 app.get('/health', (req, res) => res.json({ status: 'ok' }));
 
 app.get('/api/contacts', async (req, res) => {
@@ -139,6 +141,7 @@ initializeDatabase().then(() => {
     console.log(`Server running on port ${PORT}`);
   });
 });
+
 
 
 
